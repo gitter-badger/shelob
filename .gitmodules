@@ -1,0 +1,4 @@
+[submodule "modules/compiler"]
+	path = modules/compiler
+	url = https://git.code.sf.net/p/loader/code
+  branch = compilers

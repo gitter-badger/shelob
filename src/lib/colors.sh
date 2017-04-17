@@ -1,10 +1,9 @@
 #shellcheck shell=bash
 
-# set debug
-# set -xv
+include "term.sh"
 
 # number of colors supported
-__colors=$(tput colors 2> /dev/null)
+__colors=$(number_of_colors)
 
 # foreground colors
 __black="$(tput setaf 0)"
@@ -32,13 +31,13 @@ __bold="$(tput bold)"
 __underline="$(tput smul)"
 
 function has_colors() {
-  COLOR=${COLOR:-auto}
-  if [[ $COLOR = 'never' ]]; then
+  local color=${SHELOB_COLOR:-auto}
+  if [[ $color = 'never' ]]; then
     return 1
-  elif [[ $COLOR = 'always' ]]; then
+  elif [[ $color = 'always' ]]; then
     return 0
   else
-    [[ -t 1 ]] && [[ -n $__colors ]] && [[ $__colors -ge 8 ]]
+    terminal_connected && [[ -n $__colors ]] && [[ $__colors -ge 8 ]]
   fi
 }
 
@@ -46,13 +45,13 @@ function __format() {
   local format="$1"
   local next="${2:-}" # next formatting function e.g. underline
   if has_colors; then
-    echo -en "$format"
+    printf "%s" "$format"
     if [[ -n $next ]]; then
       shift 2
       tee | "$next" "$@"
     else
       tee
-      echo -en "$__reset"
+      printf "%s" "$__reset"
     fi
   else
     tee #print output

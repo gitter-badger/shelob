@@ -9,7 +9,7 @@ build:
 	utils/compile.sh && \
 	utils/compile-libs.sh
 
-test:
+test: build
 	utils/test.sh
 
 

@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-IFS=$'\n\t'
-
 function terminal_connected() {
   if [[ ${__TEST_TERMINAL_CONNECTED:-} = true ]]; then
     return 0
@@ -101,20 +98,4 @@ function info(){
 function emergency() {
   __log H
 }
-
-function shelob() {
-  if [[ -z ${1:-} ]]; then
-    echo "Missing command"
-    echo "Usage: shelob <command> [<args>]"
-  else
-    "$1"
-  fi
-}
-
-if [[ ${BASH_SOURCE[0]} != "$0" ]]; then
-  export -f shelob
-else
-  shelob "${@}"
-  exit $?
-fi
 

@@ -8,4 +8,6 @@
     "lib/colors.sh",
     "lib/logger.sh",
     "lib/term.sh"
+  ],
+  "files": ["utils/compile.sh"]
 }

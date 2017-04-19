@@ -4,6 +4,8 @@
   "description": "Bash utilities",
   "install": "utils/install.sh",
   "uninstall": "utils/uninstall.sh",
-  "scripts": [ "" ]
+  "scripts": [
+    "lib/colors.sh",
+    "lib/logger.sh",
+    "lib/term.sh"
 }
-

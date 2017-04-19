@@ -7,7 +7,7 @@ prefix="${PREFIX:-/usr/local}"
 
 for l in lib/*; do
   echo "Installing library $l"
-  install -vD "$l" "$prefix/lib/shelob-$(basename "$l")"
+  install -vD "$l" "$prefix/lib/$(basename "$l")"
 done
 
 

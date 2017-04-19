@@ -1,6 +1,6 @@
 #shellcheck shell=bash
 
-include "term.sh"
+include "shelob-term.sh"
 
 # number of colors supported
 __colors=$(number_of_colors)

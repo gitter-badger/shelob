@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-include "colors.sh"
+include "shelob-colors.sh"
 
 SHELOB_LOG_LEVEL="${SHELOB_LOG_LEVEL:-6}"
 function __log_prefix() {

@@ -44,8 +44,6 @@ source lib/colors.sh
     [[ $output = "${__bold}test${__reset}" ]]
   output="$(printf "test" | underline)"; \
     [[ $output = "${__underline}test${__reset}" ]]
-
-  unset __TEST_TERMINAL_CONNECTED
 }
 
 @test "Should output formatted when multiple formats applied" {
@@ -58,8 +56,6 @@ source lib/colors.sh
     [[ $output = "${__underline}${__red}test${__reset}" ]]
   output="$(printf "test" | red bold underline)"; \
     [[ $output = "${__red}${__bold}${__underline}test${__reset}" ]]
-
-  unset __TEST_TERMINAL_CONNECTED
 }
 
 @test "Should format in given order" {
@@ -67,9 +63,8 @@ source lib/colors.sh
 
   local output
   output="$(printf "test" | underline black bold)"; \
-    [[ $output = "${__black}${__bold}${__underline}test${__reset}" ]] || true
-
-  unset __TEST_TERMINAL_CONNECTED
+    [[ $output = "${__black}${__bold}${__underline}test${__reset}" ]] && \
+       exit 1 || true
 }
 
 function __multiple_lines() {
@@ -98,5 +93,10 @@ EOF
 
 }
 
+@test "Should not output formatted with redirections and pipes and not tty" {
+ # test in a subshell
+  output="$(printf "test" | red)"; \
+    [[ $output = "test" ]]
+}
 
 

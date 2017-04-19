@@ -4,5 +4,6 @@
   "description": "Bash utilities",
   "install": "utils/install.sh",
   "uninstall": "utils/uninstall.sh",
-  "files":["lib/shelob-colors.sh"]
+  "files":["lib/shelob-colors.sh"],
+  "scripts": []
 }

@@ -5,4 +5,4 @@ IFS=$'\n\t'
 shopt -s extglob
 
 shellcheck src/**/*
-bats tests
+bats tests/unit-tests

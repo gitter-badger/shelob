@@ -87,6 +87,25 @@ function white_bg() { __format "$__white_bg"  "$@";}
 function bold() { __format "$__bold"  "$@";}
 function underline() { __format "$__underline" "$@"; }
 
+if [[ ${BASH_SOURCE[0]} != "$0" ]]; then
+  __source=
+  if [[ ${BASH_SOURCE[0]} =~ .*shelob-magicvars.sh$ ]]; then
+    __source="${BASH_SOURCE[1]}"
+  else
+    __source="${BASH_SOURCE[0]}"
+  fi
+  __is_main=false
+else
+  __is_main=true
+  __source="${BASH_SOURCE[0]}"
+fi
+
+__dir="$( cd -P "$( dirname "$__source" )" && pwd )"
+__base="$(basename "$__source")"
+__file="$__dir/$__base"
+
+unset __source
+
 SHELOB_LOG_LEVEL="${SHELOB_LOG_LEVEL:-6}"
 function __log_prefix() {
   local timestamp
@@ -108,34 +127,34 @@ function emergency(){
 
 function alert(){
   if [[ ${SHELOB_LOG_LEVEL} -lt 1 ]]; then return; fi
-  __log_prefix "alert" | red_bg yellow
-  printf " "
-  printf "%s" "$@" | red bold
-  printf "\n"
+  __log_prefix "alert" | red_bg yellow >&2
+  printf " " >&2
+  printf "%s" "$@" | red bold >&2
+  printf "\n" >&2
 }
 
 function critical(){
   if [[ ${SHELOB_LOG_LEVEL} -lt 2 ]]; then return; fi
-  __log_prefix "critical" | red underline bold
-  printf " "
-  printf "%s" "$@" | red
-  printf "\n"
+  __log_prefix "critical" | red underline bold >&2
+  printf " " >&2
+  printf "%s" "$@" | red >&2
+  printf "\n" >&2
 }
 
 function error(){
   if [[ ${SHELOB_LOG_LEVEL} -lt 3 ]]; then return; fi
-  __log_prefix "error" | red bold
-  printf " "
-  printf "%s" "$@"
-  printf "\n"
+  __log_prefix "error" | red bold >&2
+  printf " " >&2
+  printf "%s" "$@" >&2
+  printf "\n" >&2
 }
 
 function warning(){
   if [[ ${SHELOB_LOG_LEVEL} -lt 4 ]]; then return; fi
-  __log_prefix "warning" | yellow bold
-  printf " "
-  printf "%s" "$@"
-  printf "\n"
+  __log_prefix "warning" | yellow bold >&2
+  printf " " >&2
+  printf "%s" "$@" >&2
+  printf "\n" >&2
 }
 
 function notice(){
@@ -163,18 +182,23 @@ function debug(){
 }
 
 function shelob() {
-  if [[ -z ${1:-} ]]; then
-    echo "Missing command"
-    echo "Usage: shelob <command> [<args>]"
+  if [[ -n ${1:-} ]] ; then
+    if [[ !  ${1} =~ ^__.* ]]; then
+      local command="$1"
+      shift 1
+      "$command" "$@"
+      return 0
+    else
+      error "Command not found: $1"
+    fi
   else
-    "$1"
+    error "Missing command"
   fi
+  echo "Usage: shelob <command> [<args>]"
+  exit 1
 }
 
-if [[ ${BASH_SOURCE[0]} != "$0" ]]; then
-  export -f shelob
-else
+if [[ ${BASH_SOURCE[0]} == "$0" ]]; then
   shelob "${@}"
-  exit $?
 fi
 

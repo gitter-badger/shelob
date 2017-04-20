@@ -3,8 +3,8 @@
 set -eo pipefail
 IFS=$'\n\t'
 
-source lib/colors.sh
-source lib/logger.sh
+source lib/shelob-colors.sh
+source lib/shelob-logger.sh
 
 @test "Emergency should be formatted accordingly and exit" {
   __TEST_TERMINAL_CONNECTED=true

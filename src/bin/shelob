@@ -5,20 +5,24 @@ IFS=$'\n\t'
 includex "**.sh"
 
 function shelob() {
-  if [[ -z ${1:-} ]]; then
-    echo "Missing command"
-    echo "Usage: shelob <command> [<args>]"
+  if [[ -n ${1:-} ]] ; then
+    if [[ !  ${1} =~ ^__.* ]]; then
+      local command="$1"
+      shift 1
+      "$command" "$@"
+      return 0
+    else
+      error "Command not found: $1"
+    fi
   else
-    "$1"
+    error "Missing command"
   fi
+  echo "Usage: shelob <command> [<args>]"
+  exit 1
 }
 
-if [[ ${BASH_SOURCE[0]} != "$0" ]]; then
-  export -f shelob
-else
+if [[ ${BASH_SOURCE[0]} == "$0" ]]; then
   shelob "${@}"
-  exit $?
 fi
-
 
 # vim:set ft=sh

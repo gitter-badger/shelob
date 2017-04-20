@@ -26,34 +26,34 @@ function emergency(){
 
 function alert(){
   if [[ ${SHELOB_LOG_LEVEL} -lt 1 ]]; then return; fi
-  __log_prefix "alert" | red_bg yellow
-  printf " "
-  printf "%s" "$@" | red bold
-  printf "\n"
+  __log_prefix "alert" | red_bg yellow >&2
+  printf " " >&2
+  printf "%s" "$@" | red bold >&2
+  printf "\n" >&2
 }
 
 function critical(){
   if [[ ${SHELOB_LOG_LEVEL} -lt 2 ]]; then return; fi
-  __log_prefix "critical" | red underline bold
-  printf " "
-  printf "%s" "$@" | red
-  printf "\n"
+  __log_prefix "critical" | red underline bold >&2
+  printf " " >&2
+  printf "%s" "$@" | red >&2
+  printf "\n" >&2
 }
 
 function error(){
   if [[ ${SHELOB_LOG_LEVEL} -lt 3 ]]; then return; fi
-  __log_prefix "error" | red bold
-  printf " "
-  printf "%s" "$@"
-  printf "\n"
+  __log_prefix "error" | red bold >&2
+  printf " " >&2
+  printf "%s" "$@" >&2
+  printf "\n" >&2
 }
 
 function warning(){
   if [[ ${SHELOB_LOG_LEVEL} -lt 4 ]]; then return; fi
-  __log_prefix "warning" | yellow bold
-  printf " "
-  printf "%s" "$@"
-  printf "\n"
+  __log_prefix "warning" | yellow bold >&2
+  printf " " >&2
+  printf "%s" "$@" >&2
+  printf "\n" >&2
 }
 
 function notice(){

@@ -3,7 +3,7 @@
 set -eo pipefail
 IFS=$'\n\t'
 
-source lib/colors.sh
+source lib/shelob-colors.sh
 
 @test "Should output formatted when terminal is connected" {
   __TEST_TERMINAL_CONNECTED=true

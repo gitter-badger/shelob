@@ -9,4 +9,4 @@ for l in lib/*; do
   install -vD "$l" "$prefix/lib/$(basename "$l")"
 done
 
-install -vD "shelob" "$prefix/bin/shelob"
+install -vD "bin/shelob" "$prefix/bin/shelob"

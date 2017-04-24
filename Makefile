@@ -1,7 +1,7 @@
 all: clean install build test
 
 clean:
-	rm -f shelob; rm -rf lib/*
+	rm -f bin/*; rm -f lib/*
 
 install:
 	git submodule update --init --remote --recursive --quiet

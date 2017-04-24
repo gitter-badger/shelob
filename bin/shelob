@@ -251,7 +251,7 @@ function ask_input() {
       echo "$default_input"
       return 0
     else
-      printf "%s" "$description[${default_input}]> "
+      printf "%s" "$description [${default_input}]> "
       read -r response
     fi
     debug "Response: $response"

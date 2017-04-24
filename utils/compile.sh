@@ -9,5 +9,5 @@ gawk -f modules/compiler/compiler.gawk -- \
   --shell '/usr/bin/env bash' \
   --tempdir /tmp \
   -a src/lib src/bin/shelob \
-  -o "shelob" && \
-  chmod +x shelob
+  -o "bin/shelob" && \
+  chmod +x bin/shelob

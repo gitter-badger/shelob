@@ -44,7 +44,7 @@ source lib/shelob-interactive.sh
   run ask_input "Hello" "Hi" <<< ""
   echo "$output"
   [[ $status -eq 0 ]]
-  [[ $output = "Hello[Hi]> Hi" ]]
+  [[ $output = "Hello [Hi]> Hi" ]]
 }
 
 @test "Should output given input" {
@@ -52,7 +52,7 @@ source lib/shelob-interactive.sh
   run ask_input "Hello" "Hi" <<< "Howdy"
   echo "$output"
   [[ $status -eq 0 ]]
-  [[ $output = "Hello[Hi]> Howdy" ]]
+  [[ $output = "Hello [Hi]> Howdy" ]]
 }
 
 @test "Should work without default value" {
@@ -60,6 +60,6 @@ source lib/shelob-interactive.sh
   run ask_input "Hello" <<< ""
   echo "$output"
   [[ $status -eq 0 ]]
-  [[ $output = "Hello[]> " ]]
+  [[ $output = "Hello []> " ]]
 }
 

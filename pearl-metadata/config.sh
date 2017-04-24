@@ -5,3 +5,4 @@
 # - *PEARL_PKGVARDIR*  - Pearl package var location
 
 export SHELOB_HOME=${PEARL_PKGDIR}
+export PATH="$SHELOB_HOME/bin:$PATH"

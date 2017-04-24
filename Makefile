@@ -5,7 +5,6 @@ clean:
 
 install:
 	git submodule update --init --remote --recursive --quiet
-	bpkg getdeps
 
 build:
 	utils/compile.sh && \

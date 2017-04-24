@@ -1,9 +1,16 @@
 #shellcheck shell=bash
+#
+# A set of utility functions to format text
+#
+# Format functions are meant to be used as pipes.
+# e.g.
+#  echo "Hello" | green bold underlined
+# or
+#  echo "Hello" | red blue_bg
+# etc.
 
 include "shelob-term.sh"
 
-# number of colors supported
-__colors=$(number_of_colors)
 
 # foreground colors
 __black="$(tput setaf 0)"
@@ -30,21 +37,55 @@ __reset="$(tput sgr0)"
 __bold="$(tput bold)"
 __underline="$(tput smul)"
 
-function has_colors() {
+
+
+#######################################
+# Determine if colors enabled/disabled or supported using SHELOB_COLOR
+# environment variable
+#
+# Globals:
+#    SHELOB_COLOR (RO) : enable colors? options: always/never/auto[default]
+# Arguments:
+#   None
+# Returns:
+#   0  : If colors should be outputted
+#   1  : If colors should NOT be outputted
+# Output:
+#   None
+#######################################
+function colors_enabled() {
   local color=${SHELOB_COLOR:-auto}
   if [[ $color = 'never' ]]; then
     return 1
   elif [[ $color = 'always' ]]; then
     return 0
   else
-    terminal_connected && [[ -n $__colors ]] && [[ $__colors -ge 8 ]]
+    terminal_connected && has_color8
   fi
 }
 
+
+#######################################
+# Format input using given color or style escape code.
+# Calls next styling function which calls back format again for stylinn
+# recursively.
+#
+# e.g. echo "Hello" | __format $__red blue
+#
+# Globals:
+#   None
+# Arguments:
+#   format ($1) : Color/style code to output.
+#   next ($2)   : Next formatting function to call
+# Returns:
+#   0
+# Output:
+#   Formatted input
+#######################################
 function __format() {
   local format="$1"
   local next="${2:-}" # next formatting function e.g. underline
-  if has_colors; then
+  if colors_enabled; then
     printf "%s" "$format"
     if [[ -n $next ]]; then
       shift 2
@@ -58,6 +99,25 @@ function __format() {
   fi
 }
 
+
+#######################################
+# Format functions. Designed to be used as next pipe to format and output
+# as needed.
+#
+# e.g.
+#   echo "Hello" | red underline bold blue_bg
+# will output Hello in red, underlined and bold on a blue background.
+#
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   0  : If successful
+#   1  : If failure
+# Output:
+#   None
+#######################################
 function black() { __format "$__black" "$@"; }
 function red() { __format "$__red" "$@"; }
 function green() { __format "$__green" "$@";}
@@ -78,6 +138,3 @@ function white_bg() { __format "$__white_bg"  "$@";}
 
 function bold() { __format "$__bold"  "$@";}
 function underline() { __format "$__underline" "$@"; }
-
-
-

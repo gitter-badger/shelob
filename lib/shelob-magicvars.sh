@@ -13,6 +13,11 @@ else
   __source="${BASH_SOURCE[0]}"
 fi
 
+while [ -h "$__source" ]; do # resolve $__source until the file is no longer a symlink
+  __dir="$( cd -P "$( dirname "$__source" )" && pwd )"
+  __source="$(readlink "$__source")"
+  [[ $__source != /* ]] && __source="$__dir/$__source" # if $__source was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
 __dir="$( cd -P "$( dirname "$__source" )" && pwd )"
 __base="$(basename "$__source")"
 __file="$__dir/$__base"

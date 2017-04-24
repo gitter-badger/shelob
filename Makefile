@@ -1,3 +1,5 @@
+all: clean install build test
+
 clean:
 	rm -f shelob; rm -rf lib/*
 

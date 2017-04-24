@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+__shelob_colors=$(tput colors 2> /dev/null)
+
 function terminal_connected() {
   if [[ ${__TEST_TERMINAL_CONNECTED:-} = true ]]; then
     return 0
@@ -8,10 +10,20 @@ function terminal_connected() {
 }
 
 function number_of_colors() {
-  tput colors 2> /dev/null
+  echo "$__shelob_colors"
 }
 
-__colors=$(number_of_colors)
+function has_color2() {
+  [[ -n $__shelob_colors ]] && [[ $__shelob_colors -ge 2 ]]
+}
+
+function has_color8() {
+  [[ -n $__shelob_colors ]] && [[ $__shelob_colors -ge 8 ]]
+}
+
+function has_color16() {
+  [[ -n $__shelob_colors ]] && [[ $__shelob_colors -ge 16 ]]
+}
 
 __black="$(tput setaf 0)"
 __red="$(tput setaf 1)"
@@ -35,21 +47,21 @@ __reset="$(tput sgr0)"
 __bold="$(tput bold)"
 __underline="$(tput smul)"
 
-function has_colors() {
+function colors_enabled() {
   local color=${SHELOB_COLOR:-auto}
   if [[ $color = 'never' ]]; then
     return 1
   elif [[ $color = 'always' ]]; then
     return 0
   else
-    terminal_connected && [[ -n $__colors ]] && [[ $__colors -ge 8 ]]
+    terminal_connected && has_color8
   fi
 }
 
 function __format() {
   local format="$1"
   local next="${2:-}" # next formatting function e.g. underline
-  if has_colors; then
+  if colors_enabled; then
     printf "%s" "$format"
     if [[ -n $next ]]; then
       shift 2
@@ -83,4 +95,3 @@ function white_bg() { __format "$__white_bg"  "$@";}
 
 function bold() { __format "$__bold"  "$@";}
 function underline() { __format "$__underline" "$@"; }
-

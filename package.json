@@ -1,0 +1,7 @@
+{
+  "name": "shelob",
+  "version": "0.0.1",
+  "description": "Bash utilities",
+  "install": "utils/install.sh",
+  "uninstall": "utils/uninstall.sh"
+}

@@ -86,7 +86,6 @@ function ask_yes_no(){
 #######################################
 function ask_input() {
     local variable_name=${1:-}
-    local response=
     if [[ -z $variable_name ]]; then
       error "Missing variable name"
       info "Usage: ask_input <variable-name> <prompt> [default-input]"
@@ -131,7 +130,6 @@ function ask_input() {
 #######################################
 function ask_input_required() {
     local variable_name=${1:-}
-    local response=
     ask_input "$@"
     while [[ -z ${!variable_name} ]]; do
       if [[ ${SHELOB_ANSWER_ALL:-} = true ]]; then
@@ -167,7 +165,6 @@ function ask_option() {
     debug "Number of options: ${#options[@]}"
     local default_answer=${4:-}
     local answer=
-    local response=
 
     if [[ -z $variable_name ]]; then
       error "Missing variable name"

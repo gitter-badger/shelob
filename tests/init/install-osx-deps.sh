@@ -6,8 +6,10 @@ brew update
 # Openssl is required for installing git from source code
 brew install openssl
 
-./tests/integ-tests/install-bash.sh "$TRAVIS_BASH_VERSION"
+./tests/init/install-bash.sh "$TRAVIS_BASH_VERSION"
 # ./tests/integ-tests/install-zsh.sh "$TRAVIS_ZSH_VERSION"
 # ./tests/integ-tests/install-fish.sh "$TRAVIS_FISH_VERSION"
-./tests/integ-tests/install-git.sh "$TRAVIS_GIT_VERSION"
+./tests/init/install-git.sh "$TRAVIS_GIT_VERSION"
+./tests/init/install-bats.sh "$TRAVIS_GIT_VERSION"
+./tests/init/install-shellcheck.sh "$TRAVIS_GIT_VERSION"
 

@@ -46,15 +46,14 @@ function ask_yes_no(){
     prompt="$question (${default_answer}/${alternate})> "
 
     if [[ ${SHELOB_ANSWER_ALL:-} = true ]]; then
-      debug "Answer all flag is set, answering yes"
-      echo "${prompt}y"
-      return 0
+      debug "Answer all flag is set, answering $default_answer"
+      echo "${prompt}$default_answer" |  blue | bold
     else
       while [[ ! $no =~ $response ]] && \
             [[ ! $yes =~ $response ]] && \
             [[ "$response" != "" ]];
       do
-          printf "%s" "${prompt}"
+          printf "%s" "${prompt}" |  blue | bold
           read -r response
           debug "Reponse $response"
       done
@@ -77,7 +76,7 @@ function ask_yes_no(){
 #   SHELOB_ANSWER_ALL (RO) : If true, use $default_input
 # Arguments:
 #   variable_name ($1)    : Variable to assign given input to
-#   description ($2)      : Input description
+#   prompt ($2)           : Descriptive prompt to display to user
 #   default_input ($3)    : Default input
 # Returns:
 #   0
@@ -89,17 +88,17 @@ function ask_input() {
     local variable_name=${1:-}
     if [[ -z $variable_name ]]; then
       error "Missing variable name"
-      info "Usage: ask_input <variable-name> <description> [default-input]"
+      info "Usage: ask_input <variable-name> <prompt> [default-input]"
       return 1
     fi
-    local description=${2:-}
+    local prompt=${2:-}
     local default_input=${3:-}
     if [[ ${SHELOB_ANSWER_ALL:-} = true ]]; then
       debug "Answer all flag is set, using default input: $default_input"
       printf -v "$variable_name" "%s" "$default_input"
       return 0
     else
-      printf "%s" "$description [${default_input}]> "
+      printf "%s" "$prompt [${default_input}]> " |  blue | bold
       read -r response
     fi
     debug "Response: $response"
@@ -113,16 +112,19 @@ function ask_input() {
 #######################################
 # Ask user to give a required input and wait to receive an input from stdin.
 # Use $default_input if no input received from stdin.
+# If $default_input is not given and response is empty keeps asking
 #
 # Globals:
 #   SHELOB_ANSWER_ALL (RO) : If true, use $default_input
 # Arguments:
 #   variable_name ($1)    : Variable to assign given input to
-#   description ($2)      : Input description
+#   prompt ($2)           : Descriptive prompt to display to user
 #   default_input ($3)    : Default input
 # Returns:
 #   0
 #   1                     : If variable name is not given
+#   1                     : If default option is not given and answer all
+#                           flag is set
 # Output:
 #   None
 #######################################
@@ -130,9 +132,71 @@ function ask_input_required() {
     local variable_name=${1:-}
     ask_input "$@"
     while [[ -z ${!variable_name} ]]; do
+      if [[ ${SHELOB_ANSWER_ALL:-} = true ]]; then
+        error "There is no default input, can not auto answer"
+        return 1
+      fi
       ask_input "$@"
     done
 }
 
 
+#######################################
+# Ask user to select an option and waits to receive an input from stdin.
+# Use $default_answer if no input received from stdin.
+#
+# Globals:
+#   SHELOB_ANSWER_ALL (RO) : If true, use $default_answer
+# Arguments:
+#   variable_name ($1)    : Variable to assign given input to
+#   prompt ($2)           : Descriptive prompt to display to user
+#   options ($3)          : comma separated option list ( option1, option2... )
+#   default_answer ($4)   : 1-based index of given option list
+# Returns:
+#   0
+#   1   : If variable name is not given
+# Output:
+#   None
+#######################################
+function ask_option() {
+    local variable_name=${1:-}
+    local prompt=${2:-}
+    IFS=',' read -ra options <<< "${3:-}"
+    debug "Number of options: ${#options[@]}"
+    local default_answer=${4:-}
+    local answer=
+
+    if [[ -z $variable_name ]]; then
+      error "Missing variable name"
+      info "Usage: ask_option <variable-name> <description> <option-list> [default-option]"
+      return 1
+    fi
+
+    if [[ ${#options[@]} -eq 0 ]]; then
+      error "No option given, options must be a comma separated list"
+      info "Usage: ask_option <variable-name> <description> <option-list> [default-option]"
+      return 1
+    fi
+
+    echo "$prompt" |  blue | bold
+    let count=1
+    for option in "${options[@]}"; do
+      echo "$count) $option" |  blue | bold
+      count=$((count+1))
+    done
+    while [[ -z ${response:-} ]]; do
+      ask_input_required response "Select an option" "$default_answer"
+      if [[ $response =~ ^[0-9]+$ ]] && \
+         [[ $response -le ${#options[@]} ]] && \
+         [[ $response -gt 0 ]]; then
+         response=$((response-1)) # Adjust reponse as array index is 0-based
+         answer=${options[$response]}
+       else
+         response= # Clear invalid response
+      fi
+    done
+
+    debug "Selected answer: $answer"
+    printf -v "$variable_name" "%s" "$answer"
+}
 

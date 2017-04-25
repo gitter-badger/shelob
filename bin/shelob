@@ -244,11 +244,17 @@ function ask_yes_no(){
 }
 
 function ask_input() {
-    local description=${1:-}
-    local default_input=${2:-}
+    local variable_name=${1:-}
+    if [[ -z $variable_name ]]; then
+      error "Missing variable name"
+      info "Usage: ask_input <variable-name> <description> [default-input]"
+      return 1
+    fi
+    local description=${2:-}
+    local default_input=${3:-}
     if [[ ${SHELOB_ANSWER_ALL:-} = true ]]; then
       debug "Answer all flag is set, using default input: $default_input"
-      echo "$default_input"
+      printf -v "$variable_name" "%s" "$default_input"
       return 0
     else
       printf "%s" "$description [${default_input}]> "
@@ -260,7 +266,7 @@ function ask_input() {
       response="$default_input";
     fi
 
-    echo "$response"
+    printf -v "$variable_name" "%s" "$response"
 }
 
 function shelob() {

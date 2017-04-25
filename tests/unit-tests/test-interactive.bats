@@ -40,26 +40,25 @@ source lib/shelob-interactive.sh
 }
 
 @test "Should output default input if no input given" {
-  export SHELOB_LOG_LEVEL=6
-  run ask_input "Hello" "Hi" <<< ""
-  echo "$output"
-  [[ $status -eq 0 ]]
-  [[ $output = "Hello [Hi]> Hi" ]]
+  ask_input "testvar" "Hello" "Hi" <<< ""
+  [[ $testvar = "Hi" ]]
 }
 
 @test "Should output given input" {
   export SHELOB_LOG_LEVEL=6
-  run ask_input "Hello" "Hi" <<< "Howdy"
-  echo "$output"
-  [[ $status -eq 0 ]]
-  [[ $output = "Hello [Hi]> Howdy" ]]
+  ask_input "testvar" "Hello" "Hi" <<< "Howdy"
+  [[ $testvar = "Howdy" ]]
 }
 
 @test "Should work without default value" {
   export SHELOB_LOG_LEVEL=6
-  run ask_input "Hello" <<< ""
-  echo "$output"
-  [[ $status -eq 0 ]]
-  [[ $output = "Hello []> " ]]
+  ask_input testvar "Hello" <<< ""
+  [[ $testvar = "" ]]
+}
+
+
+@test "Should fail if no variable name given " {
+  export SHELOB_LOG_LEVEL=6
+  ask_input <<< "" || true
 }
 

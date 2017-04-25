@@ -4,7 +4,7 @@ clean:
 	rm -f bin/*; rm -f lib/*
 
 install:
-	git submodule update --init --recursive --quiet
+	git submodule update --init --remote --recursive --quiet
 
 build:
 	utils/compile.sh && \

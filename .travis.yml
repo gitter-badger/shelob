@@ -8,9 +8,6 @@ services: docker
 env:
   - TRAVIS_BASH_VERSION="4.1" TRAVIS_GIT_VERSION="1.8.0"
 
-before_install:
-  - docker pull koalaman/shellcheck
-
 install:
   - PATH=$PWD/bin:$PATH
 
@@ -19,4 +16,5 @@ script:
   - bash --version
   - make clean install build
   - docker run -it --workdir / --rm -v $(pwd)/src:/src koalaman/shellcheck src/**/*.sh
+  - docker run -it --workdir /scripts --rm -v $(pwd):/scripts bash:4.4 bash utils/testunits.sh
 

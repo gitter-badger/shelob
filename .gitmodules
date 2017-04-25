@@ -4,4 +4,5 @@
   branch = compilers
 [submodule "modules/bats"]
 	path = modules/bats
-	url = https://github.com/mjhsieh/bats
+	url = https://github.com/sstephenson/bats
+  branch = develop

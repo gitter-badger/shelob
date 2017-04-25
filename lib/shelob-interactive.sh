@@ -238,7 +238,14 @@ function ask_input() {
       debug "Response is empty, using default input $default_input"
       response="$default_input";
     fi
-
     printf -v "$variable_name" "%s" "$response"
+}
+
+function ask_input_required() {
+    local variable_name=${1:-}
+    ask_input "$@"
+    while [[ -z $variable_name ]]; do
+      ask_input "$@"
+    done
 }
 

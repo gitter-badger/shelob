@@ -6,6 +6,12 @@ os:
 language: bash
 
 sudo: required
+addons:
+  apt:
+    sources:
+    - debian-sid    # Grab ShellCheck from the Debian repo
+    packages:
+    - shellcheck
 
 env:
   - TRAVIS_BASH_VERSION="4.1" TRAVIS_GIT_VERSION="1.8.0"

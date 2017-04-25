@@ -16,5 +16,5 @@ script:
   - bash --version
   - make clean install build
   - docker run -it --workdir / --rm -v $(pwd)/src:/src koalaman/shellcheck src/**/*.sh
-  - docker run -it --workdir /scripts --rm -v $(pwd):/scripts bash:4.4 bash utils/testunits.sh
+  - utils/testunits.sh
 

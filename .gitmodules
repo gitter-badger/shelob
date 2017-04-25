@@ -2,7 +2,3 @@
 	path = modules/compiler
 	url = https://git.code.sf.net/p/loader/code
   branch = compilers
-[submodule "modules/bats"]
-	path = modules/bats
-	url = https://github.com/sstephenson/bats
-  branch = develop

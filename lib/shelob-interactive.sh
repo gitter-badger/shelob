@@ -75,7 +75,7 @@ function __format() {
   fi
 }
 
-function black() { __format "$__black" "$@"; }
+function black() { __format $__black "$@"; }
 function red() { __format "$__red" "$@"; }
 function green() { __format "$__green" "$@";}
 function yellow() { __format "$__yellow" "$@"; }

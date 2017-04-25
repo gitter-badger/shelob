@@ -11,6 +11,7 @@ build:
 	utils/compile-libs.sh
 
 test: build
-	utils/test.sh
+	utils/teststyle.sh
+	utils/testunits.sh
 
 

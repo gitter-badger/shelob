@@ -1,28 +1,22 @@
 # vim: ft=yaml
-os:
-  - linux
-  - osx
-
 language: bash
 
 sudo: required
-addons:
-  apt:
-    sources:
-    - debian-sid    # Grab ShellCheck from the Debian repo
-    packages:
-    - shellcheck
+
+services: docker
 
 env:
   - TRAVIS_BASH_VERSION="4.1" TRAVIS_GIT_VERSION="1.8.0"
 
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./tests/init/install-linux-deps.sh; fi;
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./tests/init/install-osx-deps.sh; fi;
+  - docker pull koalaman/shellcheck
+
 install:
   - PATH=$PWD/bin:$PATH
 
 script:
   - git --version
   - bash --version
-  - make
+  - make clean install build
+  - docker run -it --workdir / --rm -v $(pwd)/src:/src koalaman/shellcheck src/**/*.sh
+

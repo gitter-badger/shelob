@@ -71,17 +71,19 @@ function ask_yes_no(){
 
 #######################################
 # Ask user to give an input and wait to receive an input from stdin.
-# Outputs $default_input if no input received from stdin.
+# Use $default_input if no input received from stdin.
 #
 # Globals:
 #   SHELOB_ANSWER_ALL (RO) : If true, use $default_input
 # Arguments:
-#   description ($1)       : Input description
-#   default_input ($2) : Default input
+#   variable_name ($1)    : Variable to assign given input to
+#   description ($2)      : Input description
+#   default_input ($3)    : Default input
 # Returns:
 #   0
+#   1   : If variable name is not given
 # Output:
-#   Received input
+#   None
 #######################################
 function ask_input() {
     local variable_name=${1:-}
@@ -105,7 +107,32 @@ function ask_input() {
       debug "Response is empty, using default input $default_input"
       response="$default_input";
     fi
-
     printf -v "$variable_name" "%s" "$response"
 }
+
+#######################################
+# Ask user to give a required input and wait to receive an input from stdin.
+# Use $default_input if no input received from stdin.
+#
+# Globals:
+#   SHELOB_ANSWER_ALL (RO) : If true, use $default_input
+# Arguments:
+#   variable_name ($1)    : Variable to assign given input to
+#   description ($2)      : Input description
+#   default_input ($3)    : Default input
+# Returns:
+#   0
+#   1                     : If variable name is not given
+# Output:
+#   None
+#######################################
+function ask_input_required() {
+    local variable_name=${1:-}
+    ask_input "$@"
+    while [[ -z $variable_name ]]; do
+      ask_input "$@"
+    done
+}
+
+
 

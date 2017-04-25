@@ -1,0 +1,23 @@
+# vim: ft=yaml
+os:
+  - linux
+  - osx
+
+language: bash
+
+sudo: required
+
+env:
+  - TRAVIS_BASH_VERSION="4.1" TRAVIS_GIT_VERSION="1.8.0"
+
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./tests/init/install-linux-deps.sh; fi;
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./tests/init/install-osx-deps.sh; fi;
+
+install:
+  - PATH=$PWD/bin:$PATH
+
+script:
+  - git --version
+  - bash --version
+  - make

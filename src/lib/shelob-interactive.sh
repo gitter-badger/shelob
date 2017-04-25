@@ -128,6 +128,7 @@ function ask_input() {
 #######################################
 function ask_input_required() {
     local variable_name=${1:-}
+    ask_input "$@"
     while [[ -z ${!variable_name} ]]; do
       ask_input "$@"
     done

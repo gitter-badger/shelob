@@ -5,7 +5,7 @@ IFS=$'\n\t'
 
 
 @test "Should resolve sourcing script's file variables" {
-  if source tests/utils/sourcemagicvars.sh; then
+  if source test/utils/sourcemagicvars.sh; then
     return 0
   else
     return 1
@@ -13,7 +13,7 @@ IFS=$'\n\t'
 }
 
 @test "Should resolve file variables when run" {
-  if tests/utils/sourcemagicvars.sh; then
+  if test/utils/sourcemagicvars.sh; then
     return 0
   else
     return 1
@@ -21,7 +21,7 @@ IFS=$'\n\t'
 }
 
 @test "Should resolve file variables if file is linked" {
-  if source tests/utils/sourcelink.sh; then
+  if source test/utils/sourcelink.sh; then
     return 0
   else
     return 1
@@ -29,7 +29,7 @@ IFS=$'\n\t'
 }
 
 @test "Should resolve file variables when link is run" {
-  if tests/utils/sourcelink.sh; then
+  if test/utils/sourcelink.sh; then
     return 0
   else
     return 1

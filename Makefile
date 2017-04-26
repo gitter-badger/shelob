@@ -1,10 +1,7 @@
-all: clean install build test
+all: clean test
 
 clean:
-	rm -f bin/*; rm -f lib/*
-
-install:
-	git submodule update --init --remote --recursive --quiet
+	rm -f lib/*
 
 build:
 	utils/compile-libs.sh
@@ -12,5 +9,3 @@ build:
 test: build
 	utils/teststyle.sh
 	utils/testunits.sh
-
-

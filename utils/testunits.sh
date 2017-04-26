@@ -3,4 +3,4 @@ set -euo pipefail
 IFS=$'\n\t'
 echo "Testing with Bash version $BASH_VERSION"
 
-bats tests/unit-tests
+bats test/unit-tests

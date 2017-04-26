@@ -2,5 +2,4 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-shellcheck src/lib/*
-shellcheck src/bin/*
+shellcheck src/*.sh

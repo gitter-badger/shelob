@@ -16,10 +16,10 @@ function __log_prefix() {
 }
 
 function emergency(){
-  __log_prefix "emergency" | red_bg yellow bold underline
-  printf " "
-  printf "%s" "$@" | red bold underline
-  printf "\n"
+  __log_prefix "emergency" | red_bg yellow bold underline >&2
+  printf " " >&2
+  printf "%s" "$@" | red bold underline >&2
+  printf "\n" >&2
   exit 1
 }
 

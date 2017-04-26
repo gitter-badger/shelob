@@ -5,7 +5,7 @@ IFS=$'\n\t'
 shopt -s nullglob #don't fail if no file found when globbing
 
 for l in src/lib/*.sh ; do
-    gawk -f modules/compiler/compiler.gawk -- \
+    gawk -f utils/compiler.gawk -- \
       -O -x \
       --shell '/usr/bin/env bash' \
       --tempdir /tmp \

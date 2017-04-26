@@ -7,7 +7,6 @@ install:
 	git submodule update --init --remote --recursive --quiet
 
 build:
-	utils/compile.sh && \
 	utils/compile-libs.sh
 
 test: build

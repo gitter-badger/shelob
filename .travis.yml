@@ -9,6 +9,9 @@ sudo: required
 
 services: docker
 
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx"  ]]; brew install gawk; fi
+
 install:
   - export DOCKER_RUN="docker run -it --workdir /scripts --rm -v $(pwd):/scripts"
   - export STYLECHECK_FILES="src/*.sh test/*.sh test/unit-tests/*.sh test/utils/*.sh utils/*.sh"

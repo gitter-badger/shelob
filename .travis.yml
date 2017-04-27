@@ -9,11 +9,14 @@ sudo: required
 
 services: docker
 
+#Install gawk for building sh scripts on osx
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" = "osx"  ]]; then brew update; brew install gawk; fi
+
 install:
   - export DOCKER_RUN="docker run -it --workdir /scripts --rm -v $(pwd):/scripts"
   - export STYLECHECK_FILES="src/*.sh test/*.sh test/unit-tests/*.sh test/utils/*.sh utils/*.sh"
   - export UNIT_TEST="apk add --no-cache ncurses; test/testunits.sh"
-  - if [[ "$TRAVIS_OS_NAME" = "osx"  ]]; brew install gawk; fi
 
 script:
   - git --version

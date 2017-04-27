@@ -11,16 +11,15 @@ services: docker
 
 install:
   - export DOCKER_RUN="docker run -it --workdir /scripts --rm -v $(pwd):/scripts"
-  - export STYLECHECK="$DOCKER_RUN koalaman/shellcheck -x src/*.sh test/*.sh test/unit-tests/*.sh test/utils/*.sh utils/*.sh"
-  - export BASH4_TEST="$DOCKER_RUN bash:4.4 bash -c ''apk add --no-cache ncurses; test/testunits.sh''"
-  - export BASH3_TEST="$DOCKER_RUN bash:3.1 bash -c ''apk add --no-cache ncurses; test/testunits.sh''"
+  - export STYLECHECK_FILES="src/*.sh test/*.sh test/unit-tests/*.sh test/utils/*.sh utils/*.sh"
+  - export UNIT_TEST="apk add --no-cache ncurses; test/testunits.sh"
 
 script:
   - git --version
   - bash --version
   - make clean build
-  - if [[ "$TRAVIS_OS_NAME" == "linux"  ]]; then $STYLECHECK; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux"  ]]; then $BASH4_TEST; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux"  ]]; then $BASH3_TEST; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux"  ]]; then $DOCKER_RUN koalaman/shellcheck -x $STYLECHECK_FILES fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux"  ]]; then $DOCKER_RUN bash:4.4 bash -c "$UNIT_TEST"; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux"  ]]; then $DOCKER_RUN bash:3.1 bash -c "$UNIT_TEST"; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx"  ]]; then make test; fi
 

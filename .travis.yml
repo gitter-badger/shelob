@@ -5,9 +5,6 @@ sudo: required
 
 services: docker
 
-env:
-  - TRAVIS_BASH_VERSION="4.1" TRAVIS_GIT_VERSION="1.8.0"
-
 install:
   - shopt -s globstar
 

@@ -16,8 +16,8 @@ before_install:
 
 install:
   - export DOCKER_RUN="docker run -it --workdir /scripts --rm -v $(pwd):/scripts"
-  - export STYLECHECK_FILES="src/*.sh test/*.sh test/unit-tests/*.sh test/utils/*.sh utils/*.sh"
-  - export UNIT_TEST="apk add --no-cache ncurses; test/testunits.sh"
+  - export STYLECHECK_FILES="src/*.sh tests/*.sh tests/unit-tests/*.sh tests/utils/*.sh utils/*.sh"
+  - export UNIT_TEST="apk add --no-cache ncurses; tests/testunits.sh"
 
 script:
   - git --version

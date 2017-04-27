@@ -3,7 +3,7 @@
 source lib/shelob-magicvars.sh
 status=0
 
-testdir="$(pwd)/test"
+testdir="$(pwd)/tests"
 expected_dir="$testdir/utils"
 expected_file="$testdir/utils/sourcemagicvars.sh"
 expected_base='sourcemagicvars.sh'

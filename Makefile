@@ -7,5 +7,5 @@ build:
 	utils/compile-libs.sh
 
 test:
-	test/teststyle.sh
-	test/testunits.sh
+	tests/teststyle.sh
+	tests/testunits.sh

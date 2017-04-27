@@ -1,4 +1,4 @@
-all: clean test
+all: clean build test
 
 clean:
 	rm -f lib/*
@@ -6,6 +6,6 @@ clean:
 build:
 	utils/compile-libs.sh
 
-test: build
+test:
 	test/teststyle.sh
 	test/testunits.sh

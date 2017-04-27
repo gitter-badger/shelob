@@ -12,7 +12,7 @@ services: docker
 install:
   - export DOCKER_RUN="docker run -it --workdir /scripts --rm -v $(pwd):/scripts"
   - export STYLECHECK="$DOCKER_RUN koalaman/shellcheck -x src/*.sh test/*.sh test/unit-tests/*.sh test/utils/*.sh utils/*.sh"
-  - export BASH4_TEST="$DOCKER_RUN bash:4.4 bash -c 'apk add --no-cache ncurses; test/testunits.sh'"
+  - export BASH4_TEST="$DOCKER_RUN bash:4.4 bash -c \'apk add --no-cache ncurses; test/testunits.sh\'"
   - export BASH3_TEST="$DOCKER_RUN bash:3.1 bash -c 'apk add --no-cache ncurses; test/testunits.sh'"
 
 script:

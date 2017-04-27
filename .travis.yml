@@ -9,9 +9,10 @@ sudo: required
 
 services: docker
 
-#Install gawk for building sh scripts on osx
+#Install gawk and sed for building scripts on osx
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" = "osx"  ]]; then brew update; brew install gawk; brew install sed; fi
+  - if [[ "$TRAVIS_OS_NAME" = "osx"  ]]; then brew update; brew install gawk; fi
+  - if [[ "$TRAVIS_OS_NAME" = "osx"  ]]; brew install gnu-sed --with-default-names; fi
 
 install:
   - export DOCKER_RUN="docker run -it --workdir /scripts --rm -v $(pwd):/scripts"

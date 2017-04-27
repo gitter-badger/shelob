@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-__shelob_colors=$(tput colors 2> /dev/null)
+__shelob_colors=$(tput colors 2> /dev/null) || __shelob_colors=0
 
 function terminal_connected() {
   if [[ ${__TEST_TERMINAL_CONNECTED:-} = true ]]; then

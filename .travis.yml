@@ -14,7 +14,8 @@ install:
 script:
   - git --version
   - bash --version
-  - make clean install build
-  - docker run -it --workdir / --rm -v $(pwd)/src:/src koalaman/shellcheck src/*.sh
-  - docker run -it --workdir /scripts --rm -v $(pwd):/scripts bash:4.4 bash utils/testunits.sh
+  - make clean build
+  - docker run -it --workdir /scripts --rm -v $(pwd):/scripts koalaman/shellcheck -x src/**/*.sh test/**/*.sh utils/**/*.sh
+  - docker run -it --workdir /scripts --rm -v $(pwd):/scripts bash:4.4 bash -c 'apk add --no-cache ncurses; utils/testunits.sh'
+  - docker run -it --workdir /scripts --rm -v $(pwd):/scripts bash:3.0 bash -c 'apk add --no-cache ncurses; utils/testunits.sh'
 

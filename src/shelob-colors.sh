@@ -3,6 +3,8 @@
 # A set of utility functions to format text
 #
 # Format functions are meant to be used as pipes.
+# This library uses tput to get color information. If tput is not available
+# no colors will be printed
 # e.g.
 #  echo "Hello" | green bold underlined
 # or
@@ -13,29 +15,29 @@ include "shelob-term.sh"
 
 
 # foreground colors
-__black="$(tput setaf 0)"
-__red="$(tput setaf 1)"
-__green="$(tput setaf 2)"
-__yellow="$(tput setaf 3)"
-__blue="$(tput setaf 4)"
-__magenta="$(tput setaf 5)"
-__cyan="$(tput setaf 6)"
-__white="$(tput setaf 7)"
+__black="$(tput setaf 0 2> /dev/null )" || __black=''
+__red="$(tput setaf 1 2> /dev/null)" || __red=''
+__green="$(tput setaf 2 2> /dev/null)" || __green=''
+__yellow="$(tput setaf 3 2> /dev/null)" || __yellow=''
+__blue="$(tput setaf 4 2> /dev/null)" || __blue=''
+__magenta="$(tput setaf 5 2> /dev/null)" || __magenta=''
+__cyan="$(tput setaf 6 2> /dev/null)" || __cyan=''
+__white="$(tput setaf 7 2> /dev/null)" || __white=''
 
 # background colors
-__black_bg="$(tput setab 0)"
-__red_bg="$(tput setab 1)"
-__green_bg="$(tput setab 2)"
-__yellow_bg="$(tput setab 3)"
-__blue_bg="$(tput setab 4)"
-__magenta_bg="$(tput setab 5)"
-__cyan_bg="$(tput setab 6)"
-__white_bg="$(tput setab 7)"
+__black_bg="$(tput setab 0 2> /dev/null)" || __black_bg=''
+__red_bg="$(tput setab 1 2> /dev/null)" || __red_bg=''
+__green_bg="$(tput setab 2 2> /dev/null)" || __green_bg=''
+__yellow_bg="$(tput setab 3 2> /dev/null)" || __yellow_bg=''
+__blue_bg="$(tput setab 4 2> /dev/null)" || __blue_bg=''
+__magenta_bg="$(tput setab 5 2> /dev/null)" || __magenta_bg=''
+__cyan_bg="$(tput setab 6 2> /dev/null)" || __cyan_bg=''
+__white_bg="$(tput setab 7 2> /dev/null)" || __white_bg=''
 
 # style
-__reset="$(tput sgr0)"
-__bold="$(tput bold)"
-__underline="$(tput smul)"
+__reset="$(tput sgr0 2> /dev/null)" || __reset=''
+__bold="$(tput bold 2> /dev/null)" || __bold=''
+__underline="$(tput smul 2> /dev/null)" || __underline=''
 
 
 

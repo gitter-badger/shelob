@@ -2,7 +2,7 @@
 
 
 # number of colors supported
-__shelob_colors=$(tput colors 2> /dev/null)
+__shelob_colors=$(tput colors 2> /dev/null) || __shelob_colors=0
 
 #######################################
 # Test if stdout is connected to tty.

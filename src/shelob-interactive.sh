@@ -164,8 +164,8 @@ function ask_option() {
     local prompt=${2:-}
     IFS=',' read -ra options <<< "${3:-}"
     debug "Number of options: ${#options[@]}"
-    local default_answer=${4:-}
-    local answer=
+    local __default_answer=${4:-}
+    local __answer=
     local selected_option=
 
     if [[ -z $variable_name ]]; then
@@ -187,18 +187,18 @@ function ask_option() {
       count=$((count+1))
     done
     while [[ -z ${selected_option} ]]; do
-      ask_input_required selected_option "Select an option" "$default_answer"
+      ask_input_required selected_option "Select an option" "$__default_answer"
       if [[ $selected_option =~ ^[0-9]+$ ]] && \
          [[ $selected_option -le ${#options[@]} ]] && \
          [[ $selected_option -gt 0 ]]; then
          selected_option=$((selected_option-1)) # Adjust reponse as array index is 0-based
-         answer=${options[$selected_option]}
+         __answer=${options[$selected_option]}
        else
          selected_option= # Clear invalid selection
       fi
     done
 
-    debug "Selected answer: $answer"
-    printf -v "$variable_name" "%s" "$answer"
+    debug "Selected answer: $__answer"
+    printf -v "$variable_name" "%s" "$__answer"
 }
 
